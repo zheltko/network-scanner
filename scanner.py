@@ -1,9 +1,11 @@
 import socket
-
+from logger import setup_logger
 
 def scan_port(host, port):
+    logger.info(f"Scanning {host}:{port}")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.settimeout(1)
+    
 
     result = sock.connect_ex((host, port))
     sock.close()
@@ -19,7 +21,7 @@ def scan_ports(host, ports):
 
     return results
 
-
+logger = setup_logger()
 if __name__ == "__main__":
     host = "127.0.0.1"
     ports = [22, 80, 443, 8080]
