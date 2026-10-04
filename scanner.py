@@ -8,15 +8,25 @@ def scan_port(host, port):
     result = sock.connect_ex((host, port))
     sock.close()
 
-    if result == 0:
-        return "open"
+    return result == 0
 
-    return "closed"
+
+def scan_ports(host, ports):
+    results = {}
+
+    for port in ports:
+        results[port] = scan_port(host, port)
+
+    return results
 
 
 if __name__ == "__main__":
     host = "127.0.0.1"
+    ports = [22, 80, 443, 8080]
 
-    for port in [22, 80, 443]:
-        status = scan_port(host, port)
+    results = scan_ports(host, ports)
+
+    for port, is_open in results.items():
+        status = "OPEN" if is_open else "CLOSED"
         print(f"{host}:{port} - {status}")
+        
